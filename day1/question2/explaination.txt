@@ -1,0 +1,98 @@
+🎯 Objective:
+You want to calculate the average number of participants in WhatsApp groups that were created in October 2024.
+
+This helps your team understand the typical size of new groups being formed that month, which is useful for product planning and server optimization.
+
+🔍 The Data
+You’re working with a table called dim_groups that looks like this:
+
+group_id	created_date	participant_count	total_messages
+G1	2024-10-05	120	5400
+G2	2024-09-15	45	300
+G3	2024-10-10	80	5000
+
+✅ Full Code With Detailed Explanation:
+
+import pandas as pd
+This line imports the pandas library, which is the most popular Python tool for working with tabular data.
+
+We use the alias pd to call pandas functions (like pd.read_csv() or pd.to_datetime()).
+
+
+# Let's assume dim_groups is already defined or loaded in your environment
+# Example: dim_groups = pd.read_csv("dim_groups.csv")
+This is just a comment (not executed).
+
+It tells you that the dim_groups DataFrame is already available.
+
+If not, you’d typically load it from a file using pd.read_csv() or a database query.
+
+
+dim_groups['created_date'] = pd.to_datetime(dim_groups['created_date'])
+This line converts the 'created_date' column to datetime format.
+
+This step is crucial because if the dates are stored as text, you can’t filter by month or year.
+
+After conversion, you can use .dt.year and .dt.month.
+
+✅ Example:
+
+
+'2024-10-05' → becomes → Timestamp('2024-10-05 00:00:00')
+
+october_2024_groups = dim_groups[
+    (dim_groups['created_date'].dt.year == 2024) &
+    (dim_groups['created_date'].dt.month == 10)
+]
+This is where the real filtering happens:
+
+🧠 What it does:
+
+Filters only the rows where:
+
+Year is 2024
+
+Month is October (month 10)
+
+The & operator combines both conditions (AND).
+
+The result is stored in a new DataFrame: october_2024_groups.
+
+📦 If dim_groups had 1,000 rows, this might return only 130 rows — all from October 2024.
+
+
+average_participants = october_2024_groups['participant_count'].mean()
+📊 This line:
+
+Picks just the participant_count column from the filtered data.
+
+Uses .mean() to calculate the average (arithmetic mean).
+
+✅ Example:
+
+
+[100, 80, 60, 120] → mean = (100 + 80 + 60 + 120) / 4 = 90
+The result is stored in a new variable average_participants.
+
+
+print("Average number of participants in groups created in October 2024:", average_participants)
+🖨️ Output:
+
+Prints the result clearly, with a message.
+
+✅ Example:
+
+
+Average number of participants in groups created in October 2024: 87.6
+📌 Summary of Logic:
+Step	What it does
+1	Convert created_date to proper datetime format
+2	Filter for groups made in Oct 2024
+3	Find average number of participants in those groups
+4	Print the result
+
+🧠 Why This Matters (Real Analysis Use)
+If the average group size is high, WhatsApp might need to optimize for large-group performance (e.g., better moderation tools).
+
+If it’s low, they may focus on features useful for smaller, private groups.
+

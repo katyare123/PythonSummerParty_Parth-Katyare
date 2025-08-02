@@ -1,0 +1,73 @@
+🧠 Objective:
+Find the average number of participants in WhatsApp groups that were created in October 2024 using pandas.
+
+🔍 Here's the code again, explained step-by-step:
+
+import pandas as pd
+✅ What it does:
+
+This line imports the pandas library, which is essential for handling tabular data like spreadsheets or SQL tables in Python.
+
+We’ll use pd as an alias to access pandas functions.
+
+
+# Let's assume dim_groups is already defined or loaded in your environment
+# Example: dim_groups = pd.read_csv("dim_groups.csv")
+✅ What it means:
+
+This is a comment. It assumes you already have the data (a table) loaded in a variable called dim_groups.
+
+If you had a CSV file of the data, you'd load it like:
+
+
+dim_groups = pd.read_csv("dim_groups.csv")
+
+dim_groups['created_date'] = pd.to_datetime(dim_groups['created_date'])
+✅ What it does:
+
+Converts the created_date column in your table to datetime format.
+
+This is important because initially, the date might just be stored as text (a string).
+
+Once it's in datetime format, you can extract .year, .month, etc. easily.
+
+
+october_2024_groups = dim_groups[
+    (dim_groups['created_date'].dt.year == 2024) &
+    (dim_groups['created_date'].dt.month == 10)
+]
+✅ What it does:
+
+This filters the DataFrame to only include rows (i.e., WhatsApp groups) that were created in October 2024.
+
+dim_groups['created_date'].dt.year == 2024 ensures the year is 2024.
+
+dim_groups['created_date'].dt.month == 10 ensures the month is October.
+
+The & means "AND" — both conditions must be true.
+
+The result is stored in a new DataFrame: october_2024_groups.
+
+
+average_participants = october_2024_groups['participant_count'].mean()
+✅ What it does:
+
+Takes the filtered DataFrame (october_2024_groups) and selects only the participant_count column.
+
+Then it uses .mean() to compute the average number of participants in those groups.
+
+
+print("Average number of participants in groups created in October 2024:", average_participants)
+✅ What it does:
+
+Displays the final result in the terminal/output.
+
+It prints a message followed by the calculated average.
+
+✅ Example Output:
+If the average was 65.4, you'd get:
+
+bash
+Copy
+Edit
+Average number of participants in groups created in October 2024: 65.4

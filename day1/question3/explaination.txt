@@ -1,0 +1,71 @@
+🔍 Goal of This Code:
+You want to analyze large WhatsApp groups (with more than 50 participants) that were created in October 2024, and find out the average number of messages they sent.
+This tells your product team how active larger groups are and whether new group features might be useful.
+
+🐍 Full Code Explanation:
+
+import pandas as pd
+✅ What it does:
+
+Imports the pandas library, which is used for data manipulation and analysis in Python.
+
+We'll use pd to call pandas functions.
+
+
+# Convert created_date to datetime
+dim_groups['created_date'] = pd.to_datetime(dim_groups['created_date'])
+✅ Why this is important:
+
+The created_date column likely stores dates as text/strings.
+
+Converting it to datetime format allows us to easily filter by year and month, like .dt.year == 2024.
+
+📌 After this line:
+
+
+'2024-10-15' (string) → 2024-10-15 00:00:00 (datetime object)
+
+# Filter groups: created in October 2024 AND participant_count > 50
+filtered_groups = dim_groups[
+    (dim_groups['created_date'].dt.year == 2024) &
+    (dim_groups['created_date'].dt.month == 10) &
+    (dim_groups['participant_count'] > 50)
+]
+✅ What's happening here:
+
+We're filtering the data to only include specific groups that match all 3 conditions:
+
+created_date is in 2024
+
+Month is October (i.e., .dt.month == 10)
+
+participant_count > 50 (i.e., large groups)
+
+📦 Example: Suppose dim_groups has 1000 rows (groups).
+This line might return only 47 rows — groups matching your conditions.
+# Calculate average number of messages
+average_messages = filtered_groups['total_messages'].mean()
+✅ What it does:
+
+From the filtered set of large October 2024 groups, it selects only the total_messages column.
+
+Then it calculates the average using .mean().
+
+📌 If the groups had these message counts:
+[220, 300, 150, 400] → The average would be (220+300+150+400)/4 = 267.5
+print("Average messages sent in large groups (Oct 2024):", average_messages)
+✅ What it does:
+
+Prints the result to the screen.
+
+So you or your team can see the insight in plain English.
+
+🖨️ Example Output:
+Average messages sent in large groups (Oct 2024): 267.5
+🧠 Why This Analysis Matters
+If the average is high, it means larger groups are very active.
+
+If the average is low, it suggests even big groups may not engage much.
+
+This informs feature development — like should you improve moderation tools or limit spam?
+
